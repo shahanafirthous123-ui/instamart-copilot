@@ -63,3 +63,4 @@ print("PCA explained variance:", pca.explained_variance_ratio_.round(3),
 rfm[["customer_id", "recency", "frequency", "monetary", "segment_id",
      "segment_name", "is_premium"]].to_csv("outputs/customer_segments.csv", index=False)
 print("wrote outputs/customer_segments.csv")
+
