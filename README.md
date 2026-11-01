@@ -135,6 +135,98 @@ no missing values in any feature column
 train/test: 924 232
 baseline accuracy: 0.616 F1: 0.0
 
+
+Logistic regression (test)
+confusion matrix [[TN FP],[FN TP]]:
+[[111  32]
+ [ 31  58]]
+precision: 0.644 recall: 0.652 F1: 0.648
+
+Random forest (test)
+confusion matrix [[TN FP],[FN TP]]:
+[[113  30]
+ [ 31  58]]
+precision: 0.659 recall: 0.652 F1: 0.655
+balanced class counts: {1: 570, 0: 570}
+
+LR on over-sampled training data (test)
+confusion matrix [[TN FP],[FN TP]]:
+[[90 53]
+ [13 76]]
+precision: 0.589 recall: 0.854 F1: 0.697
+
+LR original, un-balanced (test)
+confusion matrix [[TN FP],[FN TP]]:
+[[111  32]
+ [ 31  58]]
+precision: 0.644 recall: 0.652 F1: 0.648
+
+recall moved the most. The model now catches far more of the customers who really will lapse, but it also flags more loyal customers by mistake, so precision doesn’t improve. For the retention team this means a bigger contact list with more wasted offers. That is acceptable when offers are cheap and losing a customer is expensive.
+
+
+cohort: 1156 | lapsed: 443 (38.32%)
+no missing values in any feature column
+train/test: 924 232
+baseline accuracy: 0.616 F1: 0.0
+scaler mean of frequency (train only): 8.115
+full-cohort mean of frequency        : 8.029
+LR best: {'clf__C': 100} CV F1: 0.651
+RF best: {'clf__max_depth': 8, 'clf__min_samples_leaf': 10} CV F1: 0.681
+
+Logistic regression (test)
+confusion matrix [[TN FP],[FN TP]]:
+[[111  32]
+ [ 31  58]]
+precision: 0.644 recall: 0.652 F1: 0.648
+
+Random forest (test)
+confusion matrix [[TN FP],[FN TP]]:
+[[113  30]
+ [ 31  58]]
+precision: 0.659 recall: 0.652 F1: 0.655
+balanced class counts: {1: 570, 0: 570}
+
+LR on over-sampled training data (test)
+confusion matrix [[TN FP],[FN TP]]:
+[[90 53]
+ [13 76]]
+precision: 0.589 recall: 0.854 F1: 0.697
+
+LR original, un-balanced (test)
+confusion matrix [[TN FP],[FN TP]]:
+[[111  32]
+ [ 31  58]]
+precision: 0.644 recall: 0.652 F1: 0.648
+
+Top 5 random-forest features:
+ num__frequency       0.280
+num__monetary        0.271
+num__recency         0.115
+num__avg_delivery    0.061
+num__cancel_rate     0.052
+dtype: float64
+
+LR coefficients (recency, frequency, cancel_rate):
+ num__recency        0.039
+num__frequency     -1.697
+num__cancel_rate   -0.124
+dtype: float64
+reloaded model reproduces test predictions exactly
+premium customers in test set: 40
+in the list: 10 | truly lapsed: 2
+
+the Premium flag comes from whole-window RFM that includes September, the same window that defines the lapse label, so it is a post-hoc label and this retention list is illustrative, not a leakage-free evaluation.
+
 ## Part C
 ## Part D
+chunks: 15 {'delivery_policy.txt': 3, 'escalation_policy.txt': 3, 'payment_policy.txt': 3, 'privacy_policy.txt': 2, 'refund_policy.txt': 4}
+top 3 sources for 'refund policy late delivery': ['refund_policy.txt', 'refund_policy.txt', 'refund_policy.txt']
+
+[40 words, overlap 10] expected doc in top-3: 12/12 | fact in answer: 12/12 | fallback on unanswerable: 2/2
+
+[40 words, overlap 0] expected doc in top-3: 12/12 | fact in answer: 10/12 | fallback on unanswerable: 2/2
+  FAIL: What delivery time makes a completed order eligible for a full refund? | doc_ok=True fact_ok=False | receives a full refund of the order amount.
+  FAIL: How soon is money returned when a payment fails but is deducted? | doc_ok=True fact_ok=False | If a payment fails but money is deducted, the amount is returned automatically
+ 
+1000 must be approved by a human support lead before money is returned.
 ## Limitations and Next Steps
